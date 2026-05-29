@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net data:; img-src 'self' data: https:; connect-src 'self' http://localhost:3000 https://api-hml.seudominio.com https://api.seudominio.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+    <title>Sistema de Mentorias</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main class="page">
+        <section id="loginScreen" class="card screen">
+            <h1 class="title-with-icon">
+                <i class="bi bi-person-lock"></i>
+                <span>Login - Sistema de Mentorias</span>
+            </h1>
+
+            <form id="loginForm" novalidate>
+                <div class="field">
+                    <label for="emailLogin" class="label-with-icon">
+                        <i class="bi bi-envelope"></i>
+                        <span>Email:</span>
+                    </label>
+                    <input id="emailLogin" type="email" placeholder="seu@email.com">
+                </div>
+
+                <div class="field">
+                    <label for="senhaLogin" class="label-with-icon">
+                        <i class="bi bi-key"></i>
+                        <span>Senha:</span>
+                    </label>
+                    <input id="senhaLogin" type="password" placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn btn-primary full">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Entrar</span>
+                </button>
+
+                <div class="separator">ou</div>
+
+                <button type="button" id="googleLoginBtn" class="btn btn-outline full">
+                    <i class="bi bi-google"></i>
+                    <span>Entrar com Google</span>
+                </button>
+            </form>
+        </section>
+
+        <section id="appScreen" class="card screen hidden">
+            <header class="app-header">
+                <h1 class="title-with-icon title-left">
+                    <i class="bi bi-calendar2-check"></i>
+                    <span>Agendamento de Mentoria</span>
+                </h1>
+                <div class="user-actions">
+                    <span class="user-greeting"><i class="bi bi-person-circle"></i> Olá, <strong id="nomeUsuario">Usuário</strong>!</span>
+                    <button type="button" id="logoutBtn" class="btn btn-danger">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sair</span>
+                    </button>
+                </div>
+            </header>
+
+            <form id="mentoriaForm" novalidate>
+                <div class="field">
+                    <label for="nome" class="label-with-icon">
+                        <i class="bi bi-person-vcard"></i>
+                        <span>Nome:</span>
+                    </label>
+                    <input id="nome" type="text" placeholder="Digite seu nome">
+                    <small id="erroNome" class="error"></small>
+                </div>
+
+                <div class="field">
+                    <label for="localidade" class="label-with-icon">
+                        <i class="bi bi-geo-alt"></i>
+                        <span>Localidade:</span>
+                    </label>
+                    <select id="localidade">
+                        <option value="">Selecione uma localidade</option>
+                        <option value="Itubiara/GO">Itubiara/GO</option>
+                        <option value="Maracanau/CE">Maracanau/CE</option>
+                    </select>
+                    <small id="erroLocalidade" class="error"></small>
+                </div>
+
+                <div class="field">
+                    <label for="mentor" class="label-with-icon">
+                        <i class="bi bi-mortarboard"></i>
+                        <span>Escolher Mentor:</span>
+                    </label>
+                    <select id="mentor">
+                        <option value="">Selecione um mentor</option>
+                        <option value="Emanuel Paixão">Emanuel Paixão</option>
+                        <option value="André Trigueiro">André Trigueiro</option>
+                        <option value="Matheus Santos">Matheus Santos</option>
+                    </select>
+                    <small id="erroMentor" class="error"></small>
+                </div>
+
+                <div class="field">
+                    <label for="horario" class="label-with-icon">
+                        <i class="bi bi-clock"></i>
+                        <span>Horário:</span>
+                    </label>
+                    <select id="horario">
+                        <option value="">Selecione um horário</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                    </select>
+                    <small id="erroHorario" class="error"></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary full">
+                    <i class="bi bi-calendar-plus"></i>
+                    <span>Agendar Mentoria</span>
+                </button>
+            </form>
+
+            <div id="mensagem" class="message hidden"></div>
+
+            <section id="agendamentosSection" class="list-wrap hidden">
+                <h2 class="title-with-icon title-left">
+                    <i class="bi bi-card-checklist"></i>
+                    <span>Mentorias Agendadas:</span>
+                </h2>
+                <ul id="agendamentosList"></ul>
+            </section>
+        </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
