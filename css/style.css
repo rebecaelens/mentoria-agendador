@@ -134,16 +134,20 @@ p,
 
 .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
+  align-items: start;
 }
 
 .day-column {
+  display: flex;
+  flex-direction: column;
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(215, 224, 234, 0.95);
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  max-height: clamp(520px, 72vh, 760px);
 }
 
 .day-column__header {
@@ -175,6 +179,10 @@ p,
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  overflow-y: auto;
+  min-height: 0;
+  scrollbar-gutter: stable;
+  max-height: 190px;
 }
 
 .slot-card {
@@ -541,6 +549,15 @@ p,
 
   .calendar-grid {
     grid-template-columns: 1fr;
+  }
+
+  .day-column {
+    max-height: clamp(360px, 56vh, 540px);
+  }
+
+  .day-column__body {
+    padding-right: 0.65rem;
+    max-height: 175px;
   }
 
   .slot-time-pill {
