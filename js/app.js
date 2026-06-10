@@ -745,12 +745,10 @@ function renderSlots() {
         slotClass = "slot-card slot-card--busy";
 
         statusHTML = `
-          <button
-            class="btn btn-warning btn-sm slot-action"
-            disabled
-          >
-            Agendado: ${slot.studentName}
-          </button>
+          <div class="slot-meta" style="width: 100%;">
+            <span class="slot-meta__label">Agendado</span>
+            <strong>${slot.studentName}</strong>
+          </div>
         `;
       }
 
@@ -767,7 +765,7 @@ function renderSlots() {
           <strong>${slot.mentor}</strong>
         </div>
 
-        <div class="slot-card__footer">
+        <div class="slot-card__footer" style="width: 100%;">
           ${statusHTML}
         </div>
       `;
