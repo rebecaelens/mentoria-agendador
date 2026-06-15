@@ -8,60 +8,108 @@
   <title>Agendador de Mentoria</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">AM</div>
+      <a class="sidebar-item active" data-page="agenda">
+        <i class="bi bi-calendar-event"></i>
+        Agenda
+      </a>
+      <a class="sidebar-item" data-page="mentores">
+        <i class="bi bi-people-fill"></i>
+        Mentores
+      </a>
+    </aside>
 
-  <div class="container py-5">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
-        <h1 class="fw-bold">Agendador de Mentoria</h1>
-        <p class="text-muted mb-0">
-          Escolha um horário disponível
-        </p>
-      </div>
-
-      <div class="d-flex align-items-center gap-3">
-        <span id="user-name"></span>
-
-        <button id="login-btn" class="btn btn-primary">
-          Login Google
-        </button>
-
-        <button id="logout-btn" class="btn btn-outline-danger d-none">
-          Sair
-        </button>
-      </div>
-    </div>
-
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <div class="calendar-head mb-4">
-          <div>
-            <p class="calendar-kicker mb-1">Calendário</p>
-            <h2 class="calendar-title mb-1">Agenda da semana</h2>
-            <p class="calendar-subtitle mb-0">
-              <span id="current-date-label"></span>
-              <span class="calendar-subtitle__sep">•</span>
-              Visual limpo para acompanhar seus horários.
-            </p>
-          </div>
-
-          <div class="calendar-legend">
-            <span class="legend-chip legend-chip--available">Disponível</span>
-            <span class="legend-chip legend-chip--booked">Agendado por você</span>
-            <span class="legend-chip legend-chip--busy">Ocupado</span>
-          </div>
+    <main class="content">
+      <div class="header">
+        <div>
+          <h1 id="page-title">Agendador de Mentoria</h1>
+          <p id="page-subtitle">Escolha um horário disponível</p>
         </div>
 
-        <div id="slots-container" class="calendar-grid"></div>
+        <div class="d-flex align-items-center gap-3">
+          <span id="user-name"></span>
+          <button id="login-btn" class="btn btn-primary">Login Google</button>
+          <button id="logout-btn" class="btn btn-outline-danger d-none">Sair</button>
         </div>
       </div>
-    </div>
 
+      <div class="page-content">
+        <section id="agenda-page">
+          <div class="today-card">
+            <div>
+              <p class="calendar-kicker mb-1">Hoje é</p>
+              <h2 class="calendar-title mb-1" id="current-date-label">Hoje é 00/00</h2>
+              <p class="calendar-subtitle mb-0">Visual limpo para acompanhar seus horários.</p>
+            </div>
+            <div class="legend">
+              <div class="legend-item"><span class="dot green"></span>Disponível</div>
+              <div class="legend-item"><span class="dot blue"></span>Agendado por você</div>
+              <div class="legend-item"><span class="dot orange"></span>Ocupado</div>
+            </div>
+          </div>
+
+          <div class="agenda-card">
+            <div class="agenda-header">
+              <div>
+                <p class="section-label">Calendário</p>
+                <h2>Agenda da semana</h2>
+              </div>
+            </div>
+            <div id="slots-container" class="cards-grid"></div>
+          </div>
+
+          <div class="features">
+            <div class="feature">
+              <i class="bi bi-calendar-event"></i>
+              <div>
+                <strong>Organize sua semana</strong>
+                <p>Visualize todos os horários disponíveis rapidamente.</p>
+              </div>
+            </div>
+            <div class="feature">
+              <i class="bi bi-check-circle"></i>
+              <div>
+                <strong>Agendamentos fáceis</strong>
+                <p>Agende em poucos cliques com seus mentores.</p>
+              </div>
+            </div>
+            <div class="feature">
+              <i class="bi bi-bell"></i>
+              <div>
+                <strong>Lembretes automáticos</strong>
+                <p>Receba notificações sobre seus agendamentos.</p>
+              </div>
+            </div>
+            <div class="feature">
+              <i class="bi bi-shield-lock"></i>
+              <div>
+                <strong>Conexões seguras</strong>
+                <p>Ambiente seguro para suas mentorias e dados.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="mentores-page" class="d-none">
+          <div class="mentores-card">
+            <div class="agenda-header">
+              <div>
+                <p class="section-label">Mentores</p>
+                <h2>Conheça os mentores</h2>
+              </div>
+            </div>
+            <div id="mentores-container" class="mentores-grid"></div>
+          </div>
+        </section>
+      </div>
+    </main>
   </div>
 
   <div id="app-modal" class="app-modal d-none" role="dialog" aria-modal="true" aria-labelledby="app-modal-title" aria-describedby="app-modal-message">
@@ -85,23 +133,19 @@
         <h2 id="reschedule-title">Remarcar mentoria</h2>
         <button type="button" class="app-modal__close" data-reschedule-close aria-label="Fechar modal">&times;</button>
       </div>
-
       <form id="reschedule-form" class="reschedule-form">
         <div class="reschedule-form__group">
           <label class="reschedule-form__label" for="reschedule-date">Dia</label>
           <select id="reschedule-date" class="form-select" required></select>
         </div>
-
         <div class="reschedule-form__group">
           <label class="reschedule-form__label" for="reschedule-hour">Horário</label>
           <select id="reschedule-hour" class="form-select" required></select>
         </div>
-
         <div class="reschedule-form__group">
           <label class="reschedule-form__label" for="reschedule-mentor">Mentor</label>
           <select id="reschedule-mentor" class="form-select" required></select>
         </div>
-
         <div class="app-modal__footer app-modal__footer--between">
           <button type="button" class="btn btn-outline-secondary" data-reschedule-close>Cancelar</button>
           <button type="submit" class="btn btn-primary">Confirmar remarcação</button>
