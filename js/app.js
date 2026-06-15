@@ -71,6 +71,7 @@ let slotsData = [];
 let selectedSlotId = null;
 let daysToShow = getInitialDaysToShow();
 let expandedDays = new Set();
+let manualDaysToggled = false;
 
 // ============================================
 // HELPERS
@@ -231,12 +232,20 @@ function renderSlots() {
             Agendado por você
           </div>
 
-          <button
-            class="schedule-btn secondary"
-            onclick="window.openRescheduleModal('${slot.id}')"
-          >
-            Remarcar
-          </button>
+          <div class="booked-actions">
+            <button
+              class="schedule-btn secondary"
+              onclick="window.openRescheduleModal('${slot.id}')"
+            >
+              Remarcar
+            </button>
+            <button
+              class="schedule-btn danger"
+              onclick="window.cancelBooking('${slot.id}')"
+            >
+              Desmarcar
+            </button>
+          </div>
         `;
       }
 
@@ -305,7 +314,22 @@ function renderSlots() {
     slotsContainer.appendChild(dayContainer);
   });
 
-  // Adicionar botão "Ver mais dias" se houver mais dias
+  const initialDays = getInitialDaysToShow();
+  const canCollapseDays = daysToShow > initialDays;
+
+  if (canCollapseDays) {
+    const collapseBtn = document.createElement("button");
+    collapseBtn.className = "load-more-btn collapse-days-btn";
+    collapseBtn.type = "button";
+    collapseBtn.textContent = "Ver menos dias";
+    collapseBtn.onclick = function() {
+      daysToShow = getInitialDaysToShow();
+      manualDaysToggled = true;
+      renderSlots();
+    };
+    slotsContainer.appendChild(collapseBtn);
+  }
+
   if (allDates.length > daysToShow) {
     const loadMoreBtn = document.createElement("button");
     loadMoreBtn.className = "load-more-btn";
@@ -313,13 +337,15 @@ function renderSlots() {
     loadMoreBtn.type = "button";
     
     loadMoreBtn.onclick = function() {
-      daysToShow += 3;
+      daysToShow = Math.min(daysToShow + 3, allDates.length);
+      manualDaysToggled = true;
       renderSlots();
     };
     
     slotsContainer.appendChild(loadMoreBtn);
   }
 }
+
 
 // ============================================
 // MODAL FUNCTIONS
@@ -493,6 +519,40 @@ window.bookSlot = async function(slotId) {
   }
 };
 
+window.cancelBooking = async function(slotId) {
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    showModal("Aviso", "Você precisa fazer login para cancelar um agendamento");
+    return;
+  }
+
+  try {
+    const slot = slotsData.find((s) => s.id === slotId);
+    if (!slot) {
+      showModal("Erro", "Horário não encontrado");
+      return;
+    }
+
+    if (slot.studentId !== currentUser.uid) {
+      showModal("Erro", "Você só pode desmarcar seus próprios agendamentos");
+      return;
+    }
+
+    const slotDocRef = doc(db, "slots", slotId);
+    await updateDoc(slotDocRef, {
+      booked: false,
+      studentId: null,
+      studentName: null
+    });
+
+    showModal("Sucesso", "Agendamento desmarcado com sucesso!");
+    await loadSlots();
+  } catch (error) {
+    console.error("Erro ao desmarcar:", error);
+    showModal("Erro", "Não foi possível desmarcar o agendamento");
+  }
+};
+
 // ============================================
 // RESCHEDULE SLOT
 // ============================================
@@ -600,7 +660,9 @@ function updateCurrentDate() {
 }
 
 window.addEventListener("resize", () => {
-  daysToShow = getInitialDaysToShow();
+  if (!manualDaysToggled) {
+    daysToShow = getInitialDaysToShow();
+  }
   renderSlots();
 });
 
