@@ -656,7 +656,7 @@ function updateCurrentDate() {
   const today = new Date();
   const options = { day: "2-digit", month: "2-digit" };
   const dateStr = today.toLocaleDateString("pt-BR", options);
-  currentDateLabel.textContent = `Hoje é ${dateStr}`;
+  currentDateLabel.textContent = `${dateStr}`;
 }
 
 window.addEventListener("resize", () => {
