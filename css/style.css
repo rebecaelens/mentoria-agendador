@@ -700,7 +700,6 @@ footer{
   text-decoration:underline;
 }
 
-/* global mobile adjustments */
 @media (max-width: 900px) {
   .app-layout{
     flex-direction:column;

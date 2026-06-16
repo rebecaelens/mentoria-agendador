@@ -1,5 +1,3 @@
-// seed.js
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -7,11 +5,6 @@ import {
   collection,
   addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-// ============================================
-// FIREBASE CONFIG
-// ============================================
 
 const firebaseConfig = {
   apiKey: "AIzaSyAPK8IRNmA87EjPrLxcCtNP8HzfHlX3HsY",
@@ -22,18 +15,8 @@ const firebaseConfig = {
   appId: "1:1041303600981:web:de356a424edb93de97b9dc"
 };
 
-
-// ============================================
-// INIT
-// ============================================
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-
-// ============================================
-// CONFIGURAÇÃO
-// ============================================
 
 const mentors = [
   "André",
@@ -50,28 +33,13 @@ const hours = [
   "16:00"
 ];
 
-
-// ============================================
-// RANGE DE DATAS
-// ============================================
-
 const startDate = new Date("2026-06-01");
 const endDate = new Date("2026-06-30");
-
-
-// ============================================
-// HELPERS
-// ============================================
 
 function formatDate(date) {
 
   return date.toISOString().split("T")[0];
 }
-
-
-// ============================================
-// CREATE SLOTS
-// ============================================
 
 async function createSlots() {
 
@@ -112,10 +80,5 @@ async function createSlots() {
 
   console.log("Todos os horários foram criados");
 }
-
-
-// ============================================
-// EXECUTE
-// ============================================
 
 createSlots();

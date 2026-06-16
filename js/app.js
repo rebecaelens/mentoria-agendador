@@ -748,7 +748,6 @@ function renderMentores() {
   const mentoresContainer = document.getElementById("mentores-container");
   mentoresContainer.innerHTML = "";
 
-  // helper link to imagens folder + suggested filenames
   const helper = document.createElement('div');
   helper.className = 'imagens-helper';
   const suggested = mentoresData.map(m => normalizeFileName(m.shortName || m.name) + '.jpeg').join(', ');
@@ -759,13 +758,11 @@ function renderMentores() {
     Object.keys(mentor.schedule).forEach((day) => {
       const times = mentor.schedule[day];
       const count = slotsData.filter(s => s.mentor && s.mentor.includes(mentor.shortName || mentor.name) && s.date && isWeekday(s.date) === true && !s.booked && times.includes(s.hour)).length;
-      // fallback: use length from defined schedule when Firestore data not present
       availableByDay[day] = count || times.length;
     });
 
     const mentorCard = document.createElement("div");
     mentorCard.className = "mentor-card-large";
-    // build schedule HTML
     let scheduleHTML = "";
     Object.keys(mentor.schedule).forEach(day => {
       const times = mentor.schedule[day];

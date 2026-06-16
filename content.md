@@ -158,11 +158,6 @@ import {
   createLog
 } from "./logs.js";
 
-
-// ============================================
-// FIREBASE CONFIG
-// ============================================
-
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
@@ -172,39 +167,16 @@ const firebaseConfig = {
   appId: "SEU_APP_ID"
 };
 
-
-// ============================================
-// TABLE ORDER
-// ============================================
-
-// true = crescente
-// false = decrescente
-
 const ASCENDING_ORDER = true;
-
-
-// ============================================
-// INIT
-// ============================================
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
-// ============================================
-// ELEMENTS
-// ============================================
-
 const loginBtn = document.getElementById("login-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const userName = document.getElementById("user-name");
 const slotsContainer = document.getElementById("slots-container");
-
-
-// ============================================
-// AUTH
-// ============================================
 
 const provider = new GoogleAuthProvider();
 
@@ -223,11 +195,6 @@ logoutBtn.addEventListener("click", async () => {
   await signOut(auth);
 });
 
-
-// ============================================
-// USER STATE
-// ============================================
-
 onAuthStateChanged(auth, async (user) => {
 
   if (user) {
@@ -245,11 +212,6 @@ onAuthStateChanged(auth, async (user) => {
 
   await loadSlots();
 });
-
-
-// ============================================
-// LOAD SLOTS
-// ============================================
 
 async function loadSlots() {
 
@@ -273,8 +235,6 @@ async function loadSlots() {
 
     let statusHTML = "";
 
-
-    // SLOT LIVRE
     if (!slot.booked) {
 
       statusHTML = `
@@ -294,8 +254,6 @@ async function loadSlots() {
       `;
     }
 
-
-    // SLOT DO USUÁRIO LOGADO
     else if (
       currentUser &&
       slot.studentId === currentUser.uid
@@ -318,8 +276,6 @@ async function loadSlots() {
       `;
     }
 
-
-    // SLOT DE OUTRO ALUNO
     else {
 
       statusHTML = `
@@ -354,11 +310,6 @@ async function loadSlots() {
   });
 }
 
-
-// ============================================
-// BOOK SLOT
-// ============================================
-
 window.bookSlot = async (slotId) => {
 
   const user = auth.currentUser;
@@ -385,11 +336,6 @@ window.bookSlot = async (slotId) => {
 
   await loadSlots();
 };
-
-
-// ============================================
-// UNBOOK SLOT
-// ============================================
 
 window.unbookSlot = async (slotId) => {
 
@@ -443,11 +389,6 @@ window.unbookSlot = async (slotId) => {
 
 );
 }
-
-
-// ============================================
-// CREATE INITIAL SLOTS
-// ============================================
 
 // EXECUTE UMA VEZ E DEPOIS COMENTE
 
@@ -514,11 +455,6 @@ import {
   addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-// ============================================
-// FIREBASE CONFIG
-// ============================================
-
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
@@ -528,29 +464,14 @@ const firebaseConfig = {
   appId: "SEU_APP_ID"
 };
 
-
-// ============================================
-// INIT
-// ============================================
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-
-// ============================================
-// ELEMENTS
-// ============================================
 
 const loginBtn = document.getElementById("login-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const userName = document.getElementById("user-name");
 const slotsContainer = document.getElementById("slots-container");
-
-
-// ============================================
-// AUTH
-// ============================================
 
 const provider = new GoogleAuthProvider();
 
@@ -561,11 +482,6 @@ loginBtn.addEventListener("click", async () => {
 logoutBtn.addEventListener("click", async () => {
   await signOut(auth);
 });
-
-
-// ============================================
-// USER STATE
-// ============================================
 
 onAuthStateChanged(auth, async (user) => {
 
@@ -585,11 +501,6 @@ onAuthStateChanged(auth, async (user) => {
   await loadSlots();
 });
 
-
-// ============================================
-// LOAD SLOTS
-// ============================================
-
 async function loadSlots() {
 
   slotsContainer.innerHTML = "";
@@ -606,8 +517,6 @@ async function loadSlots() {
 
     let statusHTML = "";
 
-
-    // SLOT LIVRE
     if (!slot.booked) {
 
       statusHTML = `
@@ -620,8 +529,6 @@ async function loadSlots() {
       `;
     }
 
-
-    // SLOT OCUPADO
     else {
 
       statusHTML = `
@@ -649,11 +556,6 @@ async function loadSlots() {
   });
 }
 
-
-// ============================================
-// BOOK SLOT
-// ============================================
-
 window.bookSlot = async (slotId) => {
 
   const user = auth.currentUser;
@@ -673,11 +575,6 @@ window.bookSlot = async (slotId) => {
 
   await loadSlots();
 };
-
-
-// ============================================
-// CREATE INITIAL SLOTS
-// ============================================
 
 // EXECUTE UMA VEZ E DEPOIS COMENTE
 
@@ -717,9 +614,6 @@ async function createInitialSlots() {
   console.log("Slots criados");
 }
 
-
-// DESCOMENTE PARA POPULAR O BANCO
-// createInitialSlots();
 ````
 
 ---
